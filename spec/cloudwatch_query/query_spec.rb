@@ -53,9 +53,9 @@ RSpec.describe CloudwatchQuery::Query do
     end
   end
 
-  describe "#last" do
+  describe "#past" do
     it "sets time range" do
-      query.logs("group1").last(30, :minutes)
+      query.logs("group1").past(30, :minutes)
       # The time range is used during execution, not in the query string
       expect(query.to_insights_query).to include("fields")
     end

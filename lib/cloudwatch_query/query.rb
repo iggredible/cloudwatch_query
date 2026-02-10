@@ -60,7 +60,7 @@ module CloudwatchQuery
       self
     end
 
-    def last(amount, unit)
+    def past(amount, unit)
       seconds = TimeHelpers.duration_in_seconds(amount, unit)
       @start_time = (Time.now - seconds).to_i
       @end_time = Time.now.to_i

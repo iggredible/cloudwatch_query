@@ -42,7 +42,7 @@ end
 CloudwatchQuery
   .logs("my-app-rails-log")
   .where(level: "ERROR")
-  .last(30, :minutes)
+  .past(30, :minutes)
   .each { |event| puts event.message }
 ```
 
@@ -67,7 +67,7 @@ CloudwatchQuery
   )
   .contains("database")
   .where(level: "ERROR")
-  .last(1, :hours)
+  .past(1, :hours)
   .execute
 ```
 
@@ -77,9 +77,9 @@ CloudwatchQuery
 query = CloudwatchQuery.logs("my-app-rails-log")
 
 # Relative time
-query.last(30, :minutes)
-query.last(2, :hours)
-query.last(7, :days)
+query.past(30, :minutes)
+query.past(2, :hours)
+query.past(7, :days)
 
 # Absolute time
 query.since(Time.now - 3600)
@@ -87,13 +87,23 @@ query.since(1.hour.ago)            # With ActiveSupport
 query.between(start_time, end_time)
 ```
 
+Available time units (singular and plural forms accepted):
+
+| Unit | Symbols |
+|------|---------|
+| Seconds | `:second`, `:seconds` |
+| Minutes | `:minute`, `:minutes` |
+| Hours | `:hour`, `:hours` |
+| Days | `:day`, `:days` |
+| Weeks | `:week`, `:weeks` |
+
 ### Field Selection
 
 ```ruby
 CloudwatchQuery
   .logs("my-app-rails-log")
   .fields(:timestamp, :message, :logStream)
-  .last(1, :hours)
+  .past(1, :hours)
   .execute
 ```
 
@@ -115,7 +125,7 @@ puts query.to_insights_query
 ```ruby
 results = CloudwatchQuery
   .logs("my-app-rails-log")
-  .last(1, :hours)
+  .past(1, :hours)
   .execute
 
 # Enumerable methods
@@ -141,7 +151,7 @@ Each `Result` has a `parsed` attribute. When a query executes, every result's `m
 ```ruby
 results = CloudwatchQuery
   .logs("my-app-rails-log")
-  .last(30, :minutes)
+  .past(30, :minutes)
   .execute
 
 result = results.first
@@ -249,7 +259,7 @@ CloudwatchQuery.list_log_groups(prefix: "production-")
 | `.since(time)` | Set start time |
 | `.before(time)` | Set end time |
 | `.between(start, end)` | Set time range |
-| `.last(amount, unit)` | Relative time (e.g., `last(30, :minutes)`) |
+| `.past(amount, unit)` | Relative time (e.g., `past(30, :minutes)`) |
 | `.fields(*fields)` | Select fields to return |
 | `.limit(n)` | Limit number of results |
 | `.execute` | Run query and return ResultSet |
@@ -270,7 +280,7 @@ CloudwatchQuery.list_log_groups(prefix: "production-")
 begin
   results = CloudwatchQuery
     .logs("my-log-group")
-    .last(1, :hours)
+    .past(1, :hours)
     .execute
 rescue CloudwatchQuery::AuthError => e
   puts "Authentication failed: #{e.message}"
