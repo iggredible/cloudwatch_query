@@ -74,6 +74,8 @@ CloudwatchQuery
 ### Time Range Options
 
 ```ruby
+query = CloudwatchQuery.logs("my-app-rails-log")
+
 # Relative time
 query.last(30, :minutes)
 query.last(2, :hours)
@@ -234,22 +236,6 @@ Registry methods: `register`, `prepend`, `insert`, `unregister`, `clear`, `list`
 CloudwatchQuery.list_log_groups(prefix: "production-")
 ```
 
-## CLI Usage
-
-```bash
-# Search for errors
-cwq search "ERROR" -g my-app-rails-log -s 1h
-
-# List log groups
-cwq groups production-
-
-# JSON output
-cwq search "timeout" -g my-app-rails-log -f json
-
-# Run raw Insights query
-cwq query "fields @timestamp, @message | filter @message like /error/" -g my-app-rails-log
-```
-
 ## API Reference
 
 ### Query Builder Methods
@@ -261,7 +247,7 @@ cwq query "fields @timestamp, @message | filter @message like /error/" -g my-app
 | `.contains(text)` | Filter messages containing text |
 | `.matches(pattern)` | Filter messages matching regex |
 | `.since(time)` | Set start time |
-| `.until(time)` | Set end time |
+| `.before(time)` | Set end time |
 | `.between(start, end)` | Set time range |
 | `.last(amount, unit)` | Relative time (e.g., `last(30, :minutes)`) |
 | `.fields(*fields)` | Select fields to return |

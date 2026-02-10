@@ -1,7 +1,0 @@
-#!/usr/bin/env ruby
-# frozen_string_literal: true
-
-require "cloudwatch_query"
-require "cloudwatch_query/cli"
-
-CloudwatchQuery::CLI.start(ARGV)

@@ -18,10 +18,8 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = spec.homepage
 
   spec.files = Dir.chdir(__dir__) do
-    Dir["{exe,lib}/**/*", "LICENSE.txt", "README.md", "Rakefile", "cloudwatch_query.gemspec"]
+    Dir["lib/**/*", "LICENSE.txt", "README.md", "Rakefile", "cloudwatch_query.gemspec"]
   end
-  spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.add_dependency "aws-sdk-cloudwatchlogs", "~> 1.0"

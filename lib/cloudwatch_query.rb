@@ -46,7 +46,7 @@ module CloudwatchQuery
     alias log_group logs
 
     # Quick search shorthand
-    def search(term, groups:, since: nil, limit: nil, **options)
+    def search(term, groups:, since: nil, limit: nil)
       query = Query.new.logs(*Array(groups)).contains(term)
       query = query.since(since) if since
       query = query.limit(limit) if limit

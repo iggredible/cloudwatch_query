@@ -49,7 +49,7 @@ module CloudwatchQuery
       self
     end
 
-    def until(time)
+    def before(time)
       @end_time = TimeHelpers.to_epoch(time)
       self
     end
